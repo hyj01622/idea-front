@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean": "rm -rf node_modules pnpm-lock.yaml && pnpm install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write && prisma format",
+    "generate": "pnpm prisma generate",
+    "migrate": "pnpm prisma migrate dev",
+    "pull": "pnpm prisma db pull"
   },
   "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0"
@@ -17,10 +23,12 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@tailwindcss/postcss": "^4",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
+    "prisma": "^5.14.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
