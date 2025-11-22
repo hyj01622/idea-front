@@ -9,9 +9,9 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write && prisma format",
-    "generate": "pnpm prisma generate",
-    "migrate": "pnpm prisma migrate dev",
-    "pull": "pnpm prisma db pull"
+    "generate": "pnpm format && pnpm prisma generate",
+    "migrate": "pnpm format && pnpm prisma migrate dev && pnpm generate",
+    "pull": "prisma db pull && pnpm format"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",

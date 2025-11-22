@@ -13,12 +13,20 @@ enum UserRole {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
-  phone           String           @unique
-  role            UserRole?
-  createdAt       DateTime         @default(now())
+  id        Int       @id @default(autoincrement())
+  phone     String    @unique
+  name      String?
+  role      UserRole?
+  createdAt DateTime  @default(now())
+
   employerProfile EmployerProfile?
   sitterProfile   SitterProfile?
+
+  employerMatches Match[] @relation("EmployerMatches")
+  sitterMatches   Match[] @relation("SitterMatches")
+
+  employerRequests MatchRequest[] @relation("EmployerRequests")
+  sitterRequests   MatchRequest[] @relation("SitterRequests")
 }
 
 model Otp {
@@ -50,4 +58,32 @@ model SitterProfile {
   availableTime String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Match {
+  id         Int     @id @default(autoincrement())
+  employerId Int
+  sitterId   Int
+  active     Boolean @default(true)
+
+  contractEnd DateTime?
+  visaExpire  DateTime?
+
+  employer User @relation("EmployerMatches", fields: [employerId], references: [id])
+  sitter   User @relation("SitterMatches", fields: [sitterId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MatchRequest {
+  id         Int    @id @default(autoincrement())
+  employerId Int
+  sitterId   Int
+  status     String
+
+  employer User @relation("EmployerRequests", fields: [employerId], references: [id])
+  sitter   User @relation("SitterRequests", fields: [sitterId], references: [id])
+
+  createdAt DateTime @default(now())
 }
